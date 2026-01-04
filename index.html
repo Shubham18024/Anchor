@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
+
+    <title>ANCHOR — Discipline, clearly seen.</title>
+    <meta
+      name="description"
+      content="ANCHOR: Local-first personal discipline OS"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* ---------------- CORE CARDS ---------------- */
+      .premium-card {
+        background-color: #0a0a0a;
+        border: 1px solid #262626;
+        border-radius: 1rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+      .premium-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        border-color: #38bdf8;
+      }
+
+      /* ---------------- INPUTS ---------------- */
+      .premium-input {
+        background-color: #121212;
+        border: 1px solid #262626;
+        color: #ededed;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+      }
+
+      .premium-input:focus {
+        outline: none;
+        border-color: #38bdf8;
+        background-color: #0f172a;
+      }
+
+      /* ---------------- BUTTON FEEL ---------------- */
+      button {
+        transition: transform 0.15s ease, background-color 0.15s ease,
+          opacity 0.15s ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      /* ---------------- FADE IN ANIMATION ---------------- */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.4s ease both;
+      }
+
+      /* ---------- GLOBAL DEPTH ---------- */
+      body {
+        background: radial-gradient(1200px circle at top, #0b1220, #050505 60%);
+      }
+
+      /* ---------- SOFT CARD DEPTH ---------- */
+      .premium-card {
+        background: linear-gradient(
+          180deg,
+          rgba(18, 18, 18, 0.95),
+          rgba(8, 8, 8, 0.95)
+        );
+        backdrop-filter: blur(6px);
+      }
+
+      /* ---------- ACCENT GLOW ---------- */
+      .glow-accent {
+        transition: box-shadow 0.3s ease;
+      }
+
+      .glow-accent:hover {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+      }
+
+      /* ---------------- MICRO ANIMATIONS ---------------- */
+
+      /* soft fade + slide */
+      @keyframes softIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-soft {
+        animation: softIn 0.35s ease-out both;
+      }
+
+      /* button tap feedback */
+      button {
+        transition: transform 0.12s ease, opacity 0.12s ease;
+      }
+
+      button:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+      }
+
+      /* card hover depth */
+      .premium-card {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .premium-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      /* input focus polish */
+      .premium-input:focus {
+        outline: none;
+        border-color: #38bdf8;
+        box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+      }
+
+      /* checkbox smoothness */
+      input[type="checkbox"] {
+        transition: transform 0.15s ease;
+      }
+
+      input[type="checkbox"]:checked {
+        transform: scale(1.1);
+      }
+    </style>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              anchor: {
+                bg: "#050505",
+                panel: "#0a0a0a",
+                surface: "#121212",
+                border: "#262626",
+                text: "#ededed",
+                muted: "#a3a3a3",
+                accent: "#38bdf8",
+                success: "#34d399",
+                danger: "#fb7185",
+                warning: "#fbbf24",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- React -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <!-- Babel (for JSX) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="bg-anchor-bg text-anchor-text antialiased">
+    <!-- React mounts here -->
+    <div id="root"></div>
+
+    <!-- App entry -->
+    <script type="text/babel" src="./js/components/LifelongGoal.js"></script>
+    <script type="text/babel" src="./js/components/TaskList.js"></script>
+
+    <script
+      type="text/babel"
+      src="./js/components/ScreenTimeTracker.js"
+    ></script>
+
+    <script
+      type="text/babel"
+      src="./js/components/ConsistencyHeatmap.js"
+    ></script>
+
+    <script type="text/babel" src="./js/components/Vault.js"></script>
+
+    <script type="text/babel" src="./js/core/fileSystem.js"></script>
+
+    <script type="text/babel" src="./js/components/GuideModal.js"></script>
+    <script type="text/babel" src="./js/components/SaveReminder.js"></script>
+    <script type="text/babel" src="./js/components/CalendarPicker.js"></script>
+    <script type="text/babel" src="./js/components/LifelongGoal.js"></script>
+
+    <script type="text/babel" src="./js/app.js"></script>
+    <script type="text/babel" src="./js/main.js"></script>
+  </body>
+</html>

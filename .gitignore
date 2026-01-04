@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Local data (never commit)
+ANCHOR_DATA/
+*.swa
+
+# Logs
+*.log

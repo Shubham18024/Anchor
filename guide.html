@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ANCHOR — How to Use</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
+
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+    <style>
+      :root {
+        --accent: #38bdf8;
+        --muted: #94a3b8;
+        --bg1: #0b1220;
+        --bg2: #050505;
+        --card: rgba(18, 18, 18, 0.95);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: radial-gradient(
+          1200px circle at top,
+          var(--bg1),
+          var(--bg2) 60%
+        );
+        color: #e5e7eb;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 2.5rem 1.5rem 4rem;
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-size: 2.6rem;
+        margin-bottom: 0.5rem;
+      }
+      .subtitle {
+        color: var(--muted);
+        margin-bottom: 2.5rem;
+      }
+
+      .section {
+        background: var(--card);
+        border: 1px solid #1f2937;
+        border-radius: 1.4rem;
+        padding: 1.8rem;
+        margin-top: 2.5rem;
+        animation: slideUp 0.5s ease both;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section h2 {
+        color: var(--accent);
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+      }
+
+      .flow {
+        margin-left: 0.5rem;
+        padding-left: 1.2rem;
+        border-left: 2px dashed #1f2937;
+      }
+
+      .step {
+        margin: 1rem 0;
+        padding-left: 1rem;
+        position: relative;
+      }
+
+      .step::before {
+        content: "";
+        position: absolute;
+        left: -1.2rem;
+        top: 0.5rem;
+        width: 0.7rem;
+        height: 0.7rem;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+
+      .step-title {
+        font-weight: 600;
+      }
+      .step-desc {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .note {
+        margin-top: 1.2rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        font-size: 0.9rem;
+      }
+
+      .warn {
+        background: rgba(239, 68, 68, 0.08);
+        border-color: rgba(239, 68, 68, 0.4);
+      }
+
+      .footer {
+        margin-top: 4rem;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>ANCHOR</h1>
+      <div class="subtitle">
+        A local-first discipline system designed for clarity, honesty, and
+        long-term growth.
+      </div>
+
+      <!-- FIRST TIME -->
+      <div class="section">
+        <h2>🟢 First Time Setup (Do this once)</h2>
+        <div class="flow">
+          <div class="step">
+            <div class="step-title">North Star</div>
+            <div class="step-desc">
+              This is your long-term direction. Not a goal to finish — a reason
+              to stay consistent. You set it once and revisit it when lost.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Monthly Rhythm</div>
+            <div class="step-desc">
+              Monthly goals change slowly. They guide the kind of weeks you want
+              — not daily pressure.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Weekly Goal</div>
+            <div class="step-desc">
+              One focus for the current week. It resets weekly, not daily. This
+              keeps you oriented beyond today.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAILY FLOW -->
+      <div class="section">
+        <h2>📅 Daily Flow (Every Day)</h2>
+        <div class="flow">
+          <div class="step">
+            <div class="step-title">1. Daily Intent (Morning)</div>
+            <div class="step-desc">
+              Write how you want the day to feel. This is emotional alignment,
+              not productivity.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">2. Daily Tasks</div>
+            <div class="step-desc">
+              Add only realistic tasks. Completing tasks builds momentum — not
+              guilt.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">3. Screen Time (Manual)</div>
+            <div class="step-desc">
+              Log screen usage manually to build awareness. Precision is less
+              important than honesty.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">4. Vault Habits</div>
+            <div class="step-desc">
+              Private habits live here. Each habit allows only one truthful
+              action per day.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">5. Save the Day (Night)</div>
+            <div class="step-desc">
+              Save everything as a <code>.swa</code> file. One file represents
+              one honest day.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEXT DAY -->
+      <div class="section">
+        <h2>➡️ Next Day: What Changes?</h2>
+        <div class="flow">
+          <div class="step">
+            <div class="step-title">Daily Intent & Tasks Reset</div>
+            <div class="step-desc">
+              Each day starts fresh. Yesterday cannot be edited.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Weekly Goal Continues</div>
+            <div class="step-desc">
+              Weekly goals persist until the week ends. They don’t reset daily.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Vault Streaks Continue</div>
+            <div class="step-desc">
+              Habit streaks carry forward. Relapse and clean days are
+              permanently recorded.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VAULT -->
+      <div class="section">
+        <h2>🔐 Vault — Important Rules</h2>
+        <div class="flow">
+          <div class="step">
+            <div class="step-title">Password Protection</div>
+            <div class="step-desc">
+              Vault data is encrypted locally. There is no recovery mechanism.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">7-Day Password Chain</div>
+            <div class="step-desc">
+              Password can only be changed after 7 days. This prevents impulsive
+              resets and dishonest restarts.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">One Action Per Day</div>
+            <div class="step-desc">
+              You can mark a habit clean or relapse once per day. History cannot
+              be rewritten.
+            </div>
+          </div>
+        </div>
+
+        <div class="note warn">
+          If you forget the Vault password, the data is permanently lost. This
+          is intentional — privacy over convenience.
+        </div>
+      </div>
+
+      <!-- SWA -->
+      <div class="section">
+        <h2>💾 The .swa File (Creator Philosophy)</h2>
+        <div class="flow">
+          <div class="step">
+            <div class="step-title">What is .swa?</div>
+            <div class="step-desc">
+              <strong>.swa</strong> = Shubham’s Web App format. Each file is a
+              truthful snapshot of one day.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Why it Exists</div>
+            <div class="step-desc">
+              Created to avoid cloud dependence, accounts, and invisible data
+              manipulation.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Design Philosophy</div>
+            <div class="step-desc">
+              • One day = one file • You own your history • Past cannot be
+              rewritten
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-title">Storage Rule</div>
+            <div class="step-desc">
+              Always save files inside a folder named
+              <strong>ANCHOR_DATA</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          ANCHOR does not try to motivate you. It helps you see yourself
+          clearly.
+        </div>
+      </div>
+
+      <div class="footer">ANCHOR rewards honesty, not perfection.</div>
+    </div>
+  </body>
+</html>

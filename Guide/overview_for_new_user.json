@@ -1,0 +1,146 @@
+{
+  "project_name": "ANCHOR",
+  "project_type": "local-first discipline web app",
+  "status": "actively developed, core features implemented",
+  "high_level_overview": {
+    "description": "ANCHOR is a local-first, offline, privacy-focused personal discipline system. It runs entirely in the browser with no backend, no cloud, no accounts, and no tracking. All data stays on the user’s computer and is saved manually as custom .swa files.",
+    "philosophy": [
+      "user owns 100% of data",
+      "no cloud by default",
+      "discipline through visibility, not gamification",
+      "honesty over perfection"
+    ]
+  },
+  "technology_stack": {
+    "runtime": "browser only",
+    "framework": "React 18 via CDN",
+    "jsx_handling": "Babel (in-browser)",
+    "styling": "Tailwind CSS via CDN + small custom CSS",
+    "charts": "Chart.js",
+    "crypto": "Web Crypto API (AES-GCM + PBKDF2)",
+    "build_system": "none (no Vite/Webpack yet)"
+  },
+  "critical_constraints": {
+    "no_backend": true,
+    "no_cloud": true,
+    "no_accounts": true,
+    "no_tracking": true,
+    "no_es_modules": true,
+    "reason": "Because the app uses CDN + Babel, import/export syntax is not allowed. All components are attached to window and loaded via script tags in order."
+  },
+  "folder_structure": {
+    "root": "anchor/",
+    "structure": {
+      "index.html": "main HTML entry, loads all scripts",
+      "js/main.js": "React root render",
+      "js/app.js": "Main App component, global state, layout",
+      "js/components": {
+        "LifelongGoal.js": "North Star / lifelong goal component",
+        "TaskList.js": "Daily task manager",
+        "ScreenTimeTracker.js": "Manual screen time input + animated chart",
+        "ConsistencyHeatmap.js": "GitHub-style yearly consistency view",
+        "Vault.js": "Encrypted private habit tracker",
+        "GuideModal.js": "First-time user guide / onboarding popup",
+        "Icons.js": "SVG icon registry (window.Icons)"
+      },
+      "js/core/fileSystem.js": "Custom .swa save/load system"
+    }
+  },
+  "script_loading_order": [
+    "components/*.js",
+    "core/fileSystem.js",
+    "app.js",
+    "main.js"
+  ],
+  "state_management_notes": {
+    "daily_logs_creation": "Daily logs are created inside a useEffect after first render.",
+    "important_guard": "currentLog must be guarded to avoid undefined on first render.",
+    "example_guard": "const currentLog = appData.logs[todayStr] || { dailyGoals: [], tasks: [], screenTime: {}, notes: '' };"
+  },
+  "implemented_features": {
+    "north_star": {
+      "description": "Single lifelong goal that anchors discipline",
+      "rules": ["always visible", "editable but conceptually immutable"]
+    },
+    "daily_tasks": {
+      "features": ["add", "complete", "delete"],
+      "scope": "per-day only"
+    },
+    "screen_time_tracking": {
+      "mode": "manual input (hours/minutes)",
+      "categories": ["Productivity", "Communication", "Entertainment", "Neutral"],
+      "visualization": "animated bar chart"
+    },
+    "consistency_heatmap": {
+      "scope": "last 12 months",
+      "color_logic": [
+        "green = full completion",
+        "blue = partial",
+        "yellow = low",
+        "red = missed"
+      ]
+    },
+    "private_vault": {
+      "protection": "password only",
+      "encryption": "AES-GCM",
+      "tracked_data": ["streak", "clean day", "relapse"],
+      "security_rule": "password loss means data loss"
+    },
+    "guide_modal": {
+      "purpose": "onboard user on first use",
+      "content": [
+        "how to use the app",
+        "daily workflow",
+        "how .swa files work",
+        "privacy guarantees"
+      ]
+    },
+    "reminder": {
+      "time": "21:00",
+      "type": "browser alert",
+      "purpose": "remind user to finalize and save the day"
+    }
+  },
+  "custom_file_format": {
+    "extension": ".swa",
+    "design_goals": [
+      "compact",
+      "unreadable outside app",
+      "local-only",
+      "user-controlled"
+    ],
+    "encoding": "JSON -> Base64",
+    "filename_pattern": "ANCHOR_YYYY-MM-DD.swa",
+    "user_instruction": "Users should save files inside a folder named ANCHOR_DATA."
+  },
+  "ui_ux_guidelines": {
+    "theme": "dark",
+    "tone": "serious, calm, disciplined",
+    "no_gamification": true,
+    "design_style": "minimal, premium cards",
+    "key_css_classes": ["premium-card", "premium-input"]
+  },
+  "known_past_issues_and_fixes": {
+    "blank_screen_issue": "Caused by using import/export with CDN + Babel",
+    "fix": "Attach components to window and load via script tags",
+    "jsx_error_issue": "JSX outside a single parent element",
+    "fix_2": "Wrap return content in React Fragment <>...</>"
+  },
+  "current_focus": {
+    "goal": "bug fixing, polishing UI, improving UX",
+    "do_not_change": [
+      "offline-first philosophy",
+      "no backend",
+      "custom .swa system",
+      "privacy model"
+    ]
+  },
+  "future_plans": [
+    "UI polish and animations",
+    "weekly/monthly summaries",
+    "optional migration to Vite",
+    "desktop app via Electron/Tauri",
+    "mobile version later"
+  ],
+  "instructions_for_new_chat": "Use this JSON as full project context. Continue development, debugging, or enhancements without changing the core philosophy or architecture."
+}
