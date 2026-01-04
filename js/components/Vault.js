@@ -106,20 +106,15 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
   // ------------------ LOCK SCREEN ------------------
   if (!unlocked) {
     return (
-      <div className="max-w-md mx-auto premium-card p-6 rounded-2xl fade-up">
+      <div className="w-full max-w-md mx-auto premium-card p-6 rounded-2xl fade-up">
         <h3 className="text-xl font-semibold mb-2 text-center">
           Private Vault
         </h3>
 
-        {/* WARNING NOTE */}
         <div className="border border-anchor-danger/60 bg-anchor-danger/10 p-3 rounded mb-4 text-xs text-anchor-danger leading-relaxed">
           <strong>Warning:</strong><br />
-          This vault is encrypted and stored only inside your <code>.swa</code> file.
-          <br />
-          • There is <strong>no password recovery</strong>.<br />
-          • Forgetting the password means permanent data loss.<br />
-          • Password can be changed only after <strong>7 days</strong>.<br />
-          • Always save your day properly.
+          Vault is encrypted inside your <code>.swa</code> file.<br />
+          No password recovery. Data loss is permanent.
         </div>
 
         <input
@@ -139,7 +134,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
         <button
           onClick={unlock}
           disabled={!password}
-          className="w-full bg-white text-black py-2 rounded font-medium hover:opacity-90 disabled:opacity-40"
+          className="w-full bg-white text-black py-3 rounded font-medium hover:opacity-90 disabled:opacity-40"
         >
           Unlock Vault
         </button>
@@ -205,7 +200,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
           <div
             key={d}
             title={d}
-            className={`aspect-square rounded-md transition-all duration-300 ${
+            className={`aspect-square rounded-md ${
               habit.history[d]
                 ? "bg-anchor-success"
                 : "bg-anchor-danger"
@@ -218,15 +213,15 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
 
   // ------------------ UI ------------------
   return (
-    <div className="max-w-xl mx-auto space-y-6 fade-up">
+    <div className="w-full max-w-xl mx-auto space-y-6 fade-up">
       {/* MOTIVATION */}
-      <div className="premium-card p-6 rounded-2xl text-center">
+      <div className="premium-card p-5 rounded-2xl text-center">
         <p className="text-sm italic text-anchor-muted">
           “Discipline is choosing what you want most over what you want now.”
         </p>
       </div>
 
-      {/* PASSWORD CHANGE */}
+      {/* PASSWORD STATUS */}
       <div className="premium-card p-4 rounded-xl text-xs text-anchor-muted">
         Password change:
         {canChangePassword ? (
@@ -241,7 +236,9 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
 
       {/* HABIT LIST */}
       <div className="premium-card p-6 rounded-2xl">
-        <h3 className="text-sm mb-4 text-anchor-muted">Tracked Habits</h3>
+        <h3 className="text-sm mb-4 text-anchor-muted">
+          Tracked Habits
+        </h3>
 
         <div className="space-y-2">
           {data.habits.map((h) => (
@@ -254,7 +251,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
                   : "border-anchor-border hover:border-anchor-accent/50"
               }`}
             >
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <span className="text-white">{h.name}</span>
                 <span className="text-anchor-muted text-xs">
                   {h.streak} days
@@ -282,7 +279,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
               ],
             });
           }}
-          className="mt-4 w-full py-2 rounded border border-anchor-accent text-anchor-accent hover:bg-anchor-accent/10"
+          className="mt-4 w-full py-3 rounded border border-anchor-accent text-anchor-accent hover:bg-anchor-accent/10"
         >
           + Add Habit
         </button>
@@ -292,10 +289,10 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
       {activeHabit && (
         <div className="premium-card p-6 rounded-2xl text-center">
           <h3 className="text-lg font-semibold">{activeHabit.name}</h3>
-          <p className="text-5xl font-bold mt-2">{activeHabit.streak}</p>
+          <p className="text-4xl font-bold mt-2">{activeHabit.streak}</p>
           <p className="text-xs text-anchor-muted mb-4">day streak</p>
 
-          <div className="grid grid-cols-2 gap-4 mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
             <button
               onClick={markClean}
               disabled={activeHabit.history[todayStr]}

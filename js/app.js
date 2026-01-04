@@ -9,33 +9,28 @@ function App() {
   // ---- UI STATE ----
   const [showCalendar, setShowCalendar] = useState(false);
   const [view, setView] = useState("dashboard");
-  const [showPrinciples, setShowPrinciples] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
   const [editingName, setEditingName] = useState(false);
   const [tempName, setTempName] = useState("");
   const [saveStatus, setSaveStatus] = useState("idle");
 
-  // idle | saved
+  // 🔥 MOBILE UI STATE (NEW — UI ONLY)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // ---- APP DATA ----
   const [appData, setAppData] = useState({
     version: "3.1",
-
     identity: "User",
-
-    // NEW GOAL SYSTEM
     goals: {
-      lifelong: "", // ⭐ North Star
+      lifelong: "",
       big: "",
       monthly: "",
       weekly: "",
     },
-
     gamification: {
       xp: 0,
       level: 1,
     },
-
     logs: {},
     vaultBlob: null,
   });
@@ -44,22 +39,6 @@ function App() {
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
-  }, []);
-
-  // ---- 9 PM REMINDER ----
-  useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
-
-    const checkReminder = setInterval(() => {
-      const now = new Date();
-      if (now.getHours() === 21 && now.getMinutes() === 0) {
-        alert("ANCHOR: Time to finalize your day.");
-      }
-    }, 60000);
-
-    return () => clearInterval(checkReminder);
   }, []);
 
   // ---- ENSURE TODAY LOG ----
@@ -106,10 +85,77 @@ function App() {
 
   return (
     <>
-      <div className="flex h-screen bg-anchor-bg text-anchor-text">
-        {/* Sidebar */}
-        <aside className="w-64 border-r border-anchor-border p-4 bg-anchor-panel flex flex-col justify-between">
-          <div>
+      {/* ================= MOBILE TOP BAR ================= */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-anchor-panel border-b border-anchor-border px-4 py-3 flex items-center justify-between">
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="text-white text-xl"
+        >
+          ☰
+        </button>
+
+        <h1 className="text-lg font-semibold text-anchor-accent">ANCHOR</h1>
+
+        <button
+          onClick={() => setShowCalendar(true)}
+          className="text-sm text-anchor-accent"
+        >
+          🗓️
+        </button>
+      </header>
+
+      {/* ================= MOBILE SIDEBAR OVERLAY ================= */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div
+            className="absolute inset-0 bg-black/70"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          <aside className="relative w-64 bg-anchor-panel border-r border-anchor-border p-4 flex flex-col justify-between">
+            <div>
+              <h1 className="text-xl font-bold mb-6 text-anchor-accent">
+                ANCHOR
+              </h1>
+
+              <nav className="space-y-2">
+                <button
+                  onClick={() => {
+                    setView("dashboard");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left p-2 rounded text-white bg-anchor-surface"
+                >
+                  Dashboard
+                </button>
+
+                <button
+                  onClick={() => {
+                    setView("vault");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left p-2 rounded text-anchor-muted hover:text-white"
+                >
+                  Vault
+                </button>
+              </nav>
+            </div>
+
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-6 text-xs text-anchor-muted"
+            >
+              Close
+            </button>
+          </aside>
+        </div>
+      )}
+
+      {/* ================= DESKTOP LAYOUT ================= */}
+      <div className="flex h-screen bg-anchor-bg text-anchor-text pt-14 md:pt-0">
+        {/* DESKTOP SIDEBAR */}
+        <aside className="hidden md:flex w-64 border-r border-anchor-border p-4 bg-anchor-panel flex-col overflow-y-auto">
+          <div className="mb-10">
             <h1 className="text-xl font-bold mb-8 text-anchor-accent">
               ANCHOR
             </h1>
@@ -139,7 +185,7 @@ function App() {
             </nav>
           </div>
 
-          {/* ---------------- DAILY LOG ---------------- */}
+          {/* DAILY LOG */}
           <div className="premium-card p-4 rounded-2xl fade-up">
             <h3 className="text-xs uppercase tracking-widest text-anchor-muted mb-3">
               Daily Log
@@ -149,17 +195,14 @@ function App() {
               onClick={() => {
                 AnchorFileSystem.exportDay(appData, todayStr);
                 setSaveStatus("saved");
-
-                setTimeout(() => {
-                  setSaveStatus("idle");
-                }, 2000);
+                setTimeout(() => setSaveStatus("idle"), 2000);
               }}
-              className="w-full mb-2 py-2 rounded-lg bg-anchor-accent text-black font-semibold hover:opacity-90"
+              className="w-full mb-2 py-2 rounded-lg bg-anchor-accent text-black font-semibold"
             >
               Save Today
             </button>
 
-            <label className="block w-full text-center py-2 rounded-lg border border-anchor-border text-sm text-anchor-muted cursor-pointer hover:border-anchor-accent hover:text-white transition">
+            <label className="block w-full text-center py-2 rounded-lg border border-anchor-border text-sm text-anchor-muted cursor-pointer">
               Load Saved Day
               <input
                 type="file"
@@ -170,29 +213,20 @@ function App() {
                 }
               />
             </label>
-
-            <p className="text-[11px] text-anchor-muted mt-3 leading-relaxed">
-              Save your day before closing the app. Files stay on your computer.
-            </p>
-
-            <button
-              onClick={() => setShowGuide(true)}
-              className="mt-3 w-full text-xs text-anchor-muted hover:text-anchor-accent"
-            >
-              How saving works
-            </button>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <main className="flex-1 p-8 overflow-y-auto">
-          <header className="mb-8 fade-up">
-            <div className="flex items-center gap-3">
-              <h2 className="text-3xl font-semibold">Good {greeting},</h2>
+        {/* ================= MAIN CONTENT ================= */}
+        <main className="flex-1 px-4 md:px-8 py-6 pb-24 overflow-y-auto">
+          <header className="mb-6 fade-up">
+            <div className="flex items-center gap-3 flex-wrap">
+              <h2 className="text-2xl md:text-3xl font-semibold">
+                Good {greeting},
+              </h2>
 
               {!editingName ? (
                 <>
-                  <span className="text-3xl font-semibold text-white">
+                  <span className="text-2xl md:text-3xl font-semibold text-white">
                     {appData.identity}
                   </span>
                   <button
@@ -200,7 +234,7 @@ function App() {
                       setTempName(appData.identity);
                       setEditingName(true);
                     }}
-                    className="text-xs text-anchor-muted hover:text-anchor-accent"
+                    className="text-xs text-anchor-muted"
                   >
                     ✏️
                   </button>
@@ -208,7 +242,7 @@ function App() {
               ) : (
                 <input
                   autoFocus
-                  className="bg-transparent border-b border-anchor-accent outline-none text-3xl font-semibold text-white w-48"
+                  className="bg-transparent border-b border-anchor-accent outline-none text-2xl md:text-3xl font-semibold text-white w-40"
                   value={tempName}
                   onChange={(e) => setTempName(e.target.value)}
                   onBlur={() => {
@@ -218,33 +252,19 @@ function App() {
                     }));
                     setEditingName(false);
                   }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      setAppData((prev) => ({
-                        ...prev,
-                        identity: tempName.trim() || "User",
-                      }));
-                      setEditingName(false);
-                    }
-                    if (e.key === "Escape") {
-                      setEditingName(false);
-                    }
-                  }}
                 />
               )}
             </div>
 
-            <p className="text-anchor-muted font-mono text-sm mt-1 flex items-center gap-3">
-              <span>
-                {selectedDate} · {currentTime.toLocaleTimeString()}
-              </span>
-              <button
-                onClick={() => setShowCalendar(true)}
-                className="text-xs text-anchor-accent hover:underline"
-              >
-                Open Calendar 🗓️
-              </button>
+            <p className="text-anchor-muted font-mono text-sm mt-1">
+              {selectedDate} · {currentTime.toLocaleTimeString()}
             </p>
+            <button
+              onClick={() => setShowCalendar(true)}
+              className="mt-2 text-xs text-anchor-accent hover:underline"
+            >
+              Open Calendar 🗓️
+            </button>
 
             {/* XP Progress */}
             <div className="mt-3 max-w-sm glow-accent">
@@ -269,132 +289,50 @@ function App() {
 
           {view === "dashboard" && (
             <div className="space-y-6">
-              {/* ⭐ Lifelong Goal (North Star) */}
               <LifelongGoal
                 value={appData.goals.lifelong}
                 onChange={(val) =>
                   setAppData((prev) => ({
                     ...prev,
-                    goals: {
-                      ...prev.goals,
-                      lifelong: val,
-                    },
+                    goals: { ...prev.goals, lifelong: val },
                   }))
                 }
               />
 
-              {/* 📅 Monthly Goal */}
-              <div className="premium-card p-6 rounded-2xl fade-soft">
-                <h3 className="text-sm mb-2 text-anchor-muted">Monthly Goal</h3>
+              <ConsistencyHeatmap logs={appData.logs} />
 
-                <p className="text-xs text-anchor-muted mb-3">
-                  This resets automatically at month end.
-                </p>
+              <TaskList
+                tasks={currentLog.tasks}
+                onUpdate={(tasks) => {
+                  // ✅ count completed tasks BEFORE update
+                  const prevCompleted = currentLog.tasks.filter(
+                    (t) => t.completed
+                  ).length;
 
-                <textarea
-                  className="premium-input w-full p-3 text-sm rounded"
-                  rows={2}
-                  placeholder="What matters most this month?"
-                  value={appData.goals.monthly.value}
-                  onChange={(e) =>
-                    setAppData((prev) => ({
-                      ...prev,
-                      goals: {
-                        ...prev.goals,
-                        monthly: {
-                          ...prev.goals.monthly,
-                          value: e.target.value,
+                  const newCompleted = tasks.filter((t) => t.completed).length;
+
+                  // update tasks normally
+                  updateDailyLog("tasks", tasks);
+
+                  // ✅ award XP only when completion increases
+                  if (newCompleted > prevCompleted) {
+                    const gainedXP = (newCompleted - prevCompleted) * 5;
+
+                    setAppData((prev) => {
+                      const newXP = prev.gamification.xp + gainedXP;
+                      const newLevel = Math.floor(newXP / 100) + 1;
+
+                      return {
+                        ...prev,
+                        gamification: {
+                          xp: newXP,
+                          level: newLevel,
                         },
-                      },
-                    }))
+                      };
+                    });
                   }
-                />
-              </div>
-
-              {/* 🗓 Weekly Goal */}
-              <div className="premium-card p-6 rounded-2xl fade-soft">
-                <h3 className="text-sm mb-2 text-anchor-muted">Weekly Goal</h3>
-
-                <p className="text-xs text-anchor-muted mb-3">
-                  This resets every week.
-                </p>
-
-                <input
-                  className="premium-input w-full p-3 text-sm rounded"
-                  placeholder="What is the focus this week?"
-                  value={appData.goals.weekly.value}
-                  onChange={(e) =>
-                    setAppData((prev) => ({
-                      ...prev,
-                      goals: {
-                        ...prev.goals,
-                        weekly: {
-                          ...prev.goals.weekly,
-                          value: e.target.value,
-                        },
-                      },
-                    }))
-                  }
-                />
-              </div>
-
-              {/* Daily Intent */}
-              <div className="premium-card p-6 rounded-2xl fade-up">
-                <h3 className="text-sm mb-2 text-anchor-muted">Daily Intent</h3>
-
-                <input
-                  className="premium-input w-full p-3 rounded text-lg"
-                  placeholder="If today goes well, what ONE thing must happen?"
-                  value={currentLog.intent}
-                  onChange={(e) => updateDailyLog("intent", e.target.value)}
-                />
-
-                <p className="text-xs text-anchor-muted mt-2">
-                  Keep this short. One clear outcome.
-                </p>
-              </div>
-
-              {/* Daily Tasks (linked to Weekly Goal) */}
-              <div className="premium-card p-6 rounded-2xl fade-up">
-                <h3 className="text-sm mb-4 text-anchor-muted">
-                  Daily Tasks (This Week)
-                </h3>
-                <ConsistencyHeatmap logs={appData.logs} />
-
-                <TaskList
-                  tasks={currentLog.tasks}
-                  onUpdate={(tasks) => {
-                    // count completed tasks BEFORE update
-                    const prevCompleted = currentLog.tasks.filter(
-                      (t) => t.completed
-                    ).length;
-                    const newCompleted = tasks.filter(
-                      (t) => t.completed
-                    ).length;
-
-                    // update tasks normally
-                    updateDailyLog("tasks", tasks);
-
-                    // award XP only when completion increases
-                    if (newCompleted > prevCompleted) {
-                      const gainedXP = (newCompleted - prevCompleted) * 5;
-
-                      setAppData((prev) => {
-                        const newXP = prev.gamification.xp + gainedXP;
-                        const newLevel = Math.floor(newXP / 100) + 1;
-
-                        return {
-                          ...prev,
-                          gamification: {
-                            xp: newXP,
-                            level: newLevel,
-                          },
-                        };
-                      });
-                    }
-                  }}
-                />
-              </div>
+                }}
+              />
 
               <ScreenTimeTracker
                 data={currentLog.screenTime}
@@ -409,7 +347,7 @@ function App() {
                 <textarea
                   className="premium-input w-full p-3 rounded resize-none"
                   rows="4"
-                  placeholder="How did you spend your day? What did you learn?"
+                  placeholder="How did you spend your day?"
                   value={currentLog.notes}
                   onChange={(e) => updateDailyLog("notes", e.target.value)}
                 />
@@ -427,10 +365,41 @@ function App() {
           )}
         </main>
       </div>
-      {/* Save Feedback Toast */}
+
+      {/* ================= MOBILE SAVE BAR ================= */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-anchor-panel border-t border-anchor-border px-4 py-3">
+        <div className="flex gap-3">
+          {/* SAVE */}
+          <button
+            onClick={() => {
+              AnchorFileSystem.exportDay(appData, todayStr);
+              setSaveStatus("saved");
+              setTimeout(() => setSaveStatus("idle"), 2000);
+            }}
+            className="flex-1 py-3 rounded-xl bg-anchor-accent text-black font-semibold text-sm"
+          >
+            💾 Save Today
+          </button>
+
+          {/* LOAD */}
+          <label className="flex-1 py-3 rounded-xl border border-anchor-border text-center text-sm text-anchor-muted cursor-pointer hover:border-anchor-accent hover:text-white transition">
+            📂 Load Day
+            <input
+              type="file"
+              accept=".swa"
+              className="hidden"
+              onChange={(e) =>
+                AnchorFileSystem.importDay(e.target.files[0], setAppData)
+              }
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* SAVE TOAST */}
       {saveStatus === "saved" && (
         <div className="fixed bottom-6 right-6 z-50 fade-up">
-          <div className="premium-card px-4 py-3 rounded-xl flex items-center gap-2 border border-anchor-success">
+          <div className="premium-card px-4 py-3 rounded-xl border border-anchor-success">
             <span className="text-anchor-success text-sm font-semibold">
               ✓ Day saved successfully
             </span>

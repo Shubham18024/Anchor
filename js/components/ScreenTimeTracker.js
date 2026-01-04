@@ -48,7 +48,7 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
   // TOTAL TIME
   const totalMinutes = Object.values(data).reduce((a, b) => a + b, 0);
 
-  // CHART EFFECT (USES USER CATEGORIES)
+  // CHART EFFECT
   React.useEffect(() => {
     if (!chartRef.current) return;
 
@@ -86,8 +86,9 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false, // 🔥 mobile fix
         plugins: { legend: { display: false } },
-        animation: { duration: 900, easing: "easeOutQuart" },
+        animation: { duration: 800, easing: "easeOutQuart" },
         scales: {
           y: {
             beginAtZero: true,
@@ -105,8 +106,8 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 fade-soft">
-      {/* INPUT SIDE */}
-      <div className="premium-card p-6 rounded-2xl">
+      {/* ================= INPUT SIDE ================= */}
+      <div className="premium-card p-4 md:p-6 rounded-2xl">
         <h3 className="text-sm mb-4 text-anchor-muted flex items-center gap-2">
           ⏱️ Screen Time (Be Honest)
         </h3>
@@ -114,7 +115,7 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
         <div className="space-y-6">
           {Object.entries(userCategories).map(([cat, apps]) => (
             <div key={cat}>
-              <h4 className="text-xs uppercase text-anchor-accent mb-3 flex items-center gap-2">
+              <h4 className="text-xs uppercase text-anchor-accent mb-3">
                 {cat}
               </h4>
 
@@ -124,17 +125,27 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
                 return (
                   <div
                     key={app}
-                    className="flex items-center justify-between mb-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition"
+                    className="
+                      flex flex-col sm:flex-row
+                      sm:items-center sm:justify-between
+                      gap-3
+                      mb-3
+                      p-3
+                      rounded-xl
+                      bg-white/5
+                      hover:bg-white/10
+                      transition
+                    "
                   >
-                    <span className="text-sm text-white flex items-center gap-2 w-40">
+                    <span className="text-sm text-white flex items-center gap-2">
                       <span>{emojiMap[app] || "📱"}</span>
                       {app}
                     </span>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 w-full sm:w-auto">
                       <input
                         type="number"
-                        className="premium-input w-16 p-1 text-sm text-right"
+                        className="premium-input flex-1 sm:w-16 p-2 text-sm text-right"
                         placeholder="0h"
                         value={Math.floor(val / 60) || ""}
                         onChange={(e) =>
@@ -143,7 +154,7 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
                       />
                       <input
                         type="number"
-                        className="premium-input w-16 p-1 text-sm text-right"
+                        className="premium-input flex-1 sm:w-16 p-2 text-sm text-right"
                         placeholder="0m"
                         value={val % 60 || ""}
                         onChange={(e) =>
@@ -158,7 +169,7 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
               {/* ADD APP */}
               <div className="flex gap-2 mt-2 mb-4">
                 <input
-                  className="premium-input flex-1 p-1 text-sm"
+                  className="premium-input flex-1 p-2 text-sm"
                   placeholder={`Add app to ${cat}`}
                   value={newApp[cat] || ""}
                   onChange={(e) =>
@@ -187,14 +198,14 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
             </div>
           ))}
 
-          {/* ADD CATEGORY — 🔥 THIS IS STEP 5 */}
+          {/* ADD CATEGORY */}
           <div className="mt-6 border-t border-anchor-border pt-4">
             <h4 className="text-xs uppercase text-anchor-muted mb-2">
               Add Category
             </h4>
             <div className="flex gap-2">
               <input
-                className="premium-input flex-1 p-1 text-sm"
+                className="premium-input flex-1 p-2 text-sm"
                 placeholder="Category name (e.g. Fitness)"
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
@@ -228,12 +239,16 @@ window.ScreenTimeTracker = function ScreenTimeTracker({ data, onChange }) {
         </div>
       </div>
 
-      {/* CHART SIDE */}
-      <div className="premium-card p-6 rounded-2xl fade-soft">
+      {/* ================= CHART SIDE ================= */}
+      <div className="premium-card p-4 md:p-6 rounded-2xl fade-soft">
         <h3 className="text-sm mb-4 text-anchor-muted flex items-center gap-2">
           📊 Usage Distribution
         </h3>
-        <canvas ref={chartRef} height="200"></canvas>
+
+        {/* fixed height for mobile */}
+        <div className="relative h-64 md:h-80">
+          <canvas ref={chartRef} />
+        </div>
       </div>
     </div>
   );
