@@ -1,6 +1,10 @@
 # ⚓ ANCHOR
+> **“Once my mathematics teacher told me:  
+> *Beta, Discipline is the most important thing in life. Without it, you cannot truly succeed anywhere.*”**
 
-**ANCHOR** is a local-first personal discipline system.  
+“**ANCHOR** exists because I remembered that sentence.”
+
+It's a local-first personal discipline system.  
 No accounts. No cloud. No tracking. No manipulation.
 
 Everything lives on **your computer**.
@@ -27,44 +31,6 @@ ANCHOR optimizes for **awareness**, **ownership**, and **truth**.
 ANCHOR is calm by design.
 
 ---
-
-## 🧭 Core Concepts (Time Scales)
-
-ANCHOR works across **four time scales**, each with a clear purpose:
-
-### ⭐ Lifelong Goal (North Star)
-- Your long-term direction
-- Identity-level intention
-- Set once, editable manually
-- **Never auto-resets**
-
-This answers: *Why am I doing any of this?*
-
----
-
-### 📅 Monthly Goal
-- Direction for the current month
-- Automatically resets when the month changes
-- Keeps weeks aligned to a bigger picture
-
----
-
-### 🗓 Weekly Goal
-- Focus for the current week
-- Automatically resets each week
-- Prevents daily noise from stealing attention
-
----
-
-### 📝 Daily Intent & Tasks
-- Daily intent sets the emotional tone
-- Daily tasks define realistic actions
-- Resets every day
-
-This answers: *What does today need from me?*
-
----
-
 ## ✨ Features
 
 - ⭐ **Lifelong Goal (North Star)**
@@ -141,17 +107,6 @@ ANCHOR never uploads, syncs, or reads your data without you explicitly loading a
    - Save a new file for the day
 
 For a detailed walkthrough, open **`guide.html`** inside the app.
-
----
-
-## 🌍 Live Demo
-
-ANCHOR is hosted using GitHub Pages:
-
-👉 **https://shubham18024.github.io/Anchor/**
-
-The app runs entirely in your browser.  
-No backend. No servers. No tracking.
 
 ---
 
