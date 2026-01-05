@@ -114,7 +114,8 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
         <div className="border border-anchor-danger/60 bg-anchor-danger/10 p-3 rounded mb-4 text-xs text-anchor-danger leading-relaxed">
           <strong>Warning:</strong><br />
           Vault is encrypted inside your <code>.swa</code> file.<br />
-          No password recovery. Data loss is permanent.
+          No password recovery. Data loss is permanent.<br/>
+          If you are using Anchor first time, please enter new password else enter your old password.
         </div>
 
         <input

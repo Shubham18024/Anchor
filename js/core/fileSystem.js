@@ -19,7 +19,7 @@ window.AnchorFileSystem = {
     });
 
     alert(
-      "IMPORTANT:\n\nSave this file inside your ANCHOR_DATA folder.\nDo NOT rename randomly."
+      "IMPORTANT:\n\nSave this file inside your ANCHOR_DATA folder,(if not create one).\nDo NOT rename randomly."
     );
 
     const a = document.createElement("a");

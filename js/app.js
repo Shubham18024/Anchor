@@ -104,7 +104,7 @@ function App() {
     // Add to existing tasks
     const updatedTasks = [...(currentLog.tasks || []), newTask];
     updateDailyLog("tasks", updatedTasks);
-    
+
     // Reset UI
     setNewTaskText("");
     setShowAddTaskModal(false);
@@ -144,7 +144,9 @@ function App() {
       {showAddTaskModal && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
           <div className="bg-anchor-panel w-full max-w-sm p-6 rounded-2xl border border-anchor-border fade-up shadow-2xl">
-            <h3 className="text-lg font-bold text-white mb-4">Add Daily Task</h3>
+            <h3 className="text-lg font-bold text-white mb-4">
+              Add Daily Task
+            </h3>
             <input
               autoFocus
               className="premium-input w-full p-3 rounded-lg mb-4 bg-anchor-bg border border-anchor-border text-white focus:border-anchor-accent outline-none"
@@ -316,11 +318,11 @@ function App() {
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                        setAppData((prev) => ({
-                            ...prev,
-                            identity: tempName.trim() || "User",
-                          }));
-                          setEditingName(false);
+                      setAppData((prev) => ({
+                        ...prev,
+                        identity: tempName.trim() || "User",
+                      }));
+                      setEditingName(false);
                     }
                   }}
                 />
@@ -328,23 +330,29 @@ function App() {
             </div>
 
             <div className="flex items-center gap-4 mt-2">
-                <p className="text-anchor-muted font-mono text-sm">
-                {selectedDate} · {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
+              <p className="text-anchor-muted font-mono text-sm">
+                {selectedDate} ·{" "}
+                {currentTime.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
 
-                <button
+              <button
                 onClick={() => setShowCalendar(true)}
                 className="text-lg text-anchor-accent hover:scale-110 transition-transform"
                 aria-label="Open calendar"
-                >
+              >
                 🗓️
-                </button>
+              </button>
             </div>
 
             {/* XP Progress */}
             <div className="mt-4 max-w-md glow-accent p-1 rounded-full">
               <div className="flex justify-between text-xs text-anchor-muted mb-1 px-1">
-                <span className="font-bold">LVL {appData.gamification.level}</span>
+                <span className="font-bold">
+                  LVL {appData.gamification.level}
+                </span>
                 <span>{appData.gamification.xp} XP</span>
               </div>
 
@@ -377,46 +385,52 @@ function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* 📅 Monthly Goal */}
                 <div className="premium-card p-6 rounded-2xl fade-soft">
-                    <h3 className="text-sm mb-2 text-anchor-muted font-semibold uppercase tracking-wide">Monthly Focus</h3>
-                    <textarea
+                  <h3 className="text-sm mb-2 text-anchor-muted font-semibold uppercase tracking-wide">
+                    Monthly Focus
+                  </h3>
+                  <textarea
                     className="premium-input w-full p-3 text-sm rounded-lg h-24 resize-none"
                     placeholder="What matters most this month?"
                     value={appData.goals.monthly}
                     onChange={(e) =>
-                        setAppData((prev) => ({
+                      setAppData((prev) => ({
                         ...prev,
                         goals: {
-                            ...prev.goals,
-                            monthly: e.target.value,
+                          ...prev.goals,
+                          monthly: e.target.value,
                         },
-                        }))
+                      }))
                     }
-                    />
+                  />
                 </div>
 
                 {/* 🗓 Weekly Goal */}
                 <div className="premium-card p-6 rounded-2xl fade-soft">
-                    <h3 className="text-sm mb-2 text-anchor-muted font-semibold uppercase tracking-wide">Weekly Focus</h3>
-                    <textarea
+                  <h3 className="text-sm mb-2 text-anchor-muted font-semibold uppercase tracking-wide">
+                    Weekly Focus
+                  </h3>
+                  <textarea
                     className="premium-input w-full p-3 text-sm rounded-lg h-24 resize-none"
                     placeholder="What is the focus this week?"
                     value={appData.goals.weekly}
                     onChange={(e) =>
-                        setAppData((prev) => ({
+                      setAppData((prev) => ({
                         ...prev,
                         goals: {
-                            ...prev.goals,
-                            weekly: e.target.value,
+                          ...prev.goals,
+                          weekly: e.target.value,
                         },
-                        }))
+                      }))
                     }
-                    />
+                  />
                 </div>
               </div>
 
               {/* 🌅 Daily Intent */}
               <div className="premium-card p-6 rounded-2xl fade-up border-l-4 border-anchor-accent">
-                <h3 className="text-sm mb-2 text-anchor-muted font-bold uppercase">Daily Intent</h3>
+                <h3 className="text-sm mb-2 text-anchor-muted font-bold uppercase">
+                  Daily Intent
+                </h3>
                 <input
                   className="premium-input w-full p-3 rounded-lg text-lg font-medium"
                   placeholder="If today goes well, what ONE thing must happen?"
@@ -430,29 +444,36 @@ function App() {
               <TaskList
                 tasks={currentLog.tasks}
                 onUpdate={(tasks) => {
-                  // ✅ count completed tasks BEFORE update
-                  const prevCompleted = currentLog.tasks.filter(
-                    (t) => t.completed
-                  ).length;
+                  let gainedXP = 0;
 
-                  const newCompleted = tasks.filter((t) => t.completed).length;
+                  const updatedTasks = tasks.map((task) => {
+                    const prevTask = currentLog.tasks.find(
+                      (t) => t.id === task.id
+                    );
 
-                  // update tasks normally
-                  updateDailyLog("tasks", tasks);
+                    // Award XP only once per task per day
+                    if (
+                      task.completed &&
+                      !task.xpAwarded &&
+                      (!prevTask || !prevTask.completed)
+                    ) {
+                      gainedXP += 5;
+                      return { ...task, xpAwarded: true };
+                    }
 
-                  // ✅ award XP only when completion increases
-                  if (newCompleted > prevCompleted) {
-                    const gainedXP = (newCompleted - prevCompleted) * 5;
+                    return task;
+                  });
 
+                  updateDailyLog("tasks", updatedTasks);
+
+                  if (gainedXP > 0) {
                     setAppData((prev) => {
                       const newXP = prev.gamification.xp + gainedXP;
-                      const newLevel = Math.floor(newXP / 100) + 1;
-
                       return {
                         ...prev,
                         gamification: {
                           xp: newXP,
-                          level: newLevel,
+                          level: Math.floor(newXP / 100) + 1,
                         },
                       };
                     });
