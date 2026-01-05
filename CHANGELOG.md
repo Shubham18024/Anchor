@@ -1,3 +1,17 @@
+## v3.2.1
+
+### 🐛 Bug Fixes & UX Corrections
+- Fixed duplicate Calendar triggers between mobile and desktop
+- Calendar now opens from **top-bar icon on mobile** and **text button on desktop**
+- Restored clean separation of mobile vs desktop navigation behavior
+- Fixed Daily Tasks input on mobile by adding a tap-friendly ➕ button
+- Preserved desktop **Enter-to-add task** behavior
+
+### 🎯 Stability & Consistency
+- No features removed; all original functionality preserved
+- No changes to goal reset logic (daily / weekly / monthly)
+- No changes to XP calculation rules or data format
+
 ## v3.2.0
 
 ### ✨ UI & UX Improvements
