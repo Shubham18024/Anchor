@@ -1,3 +1,7 @@
+const getLocalDateStr = () => {
+  return new Date().toLocaleDateString("en-CA");
+};
+
 window.Vault = function Vault({ encryptedBlob, onSave }) {
   const [password, setPassword] = React.useState("");
   const [unlocked, setUnlocked] = React.useState(false);
@@ -5,7 +9,8 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
   const [error, setError] = React.useState("");
   const [activeHabitId, setActiveHabitId] = React.useState(null);
 
-  const todayStr = new Date().toISOString().split("T")[0];
+  const todayStr = getLocalDateStr();
+
   const MS_IN_DAY = 86400000;
 
   // ------------------ CRYPTO ------------------
@@ -112,10 +117,14 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
         </h3>
 
         <div className="border border-anchor-danger/60 bg-anchor-danger/10 p-3 rounded mb-4 text-xs text-anchor-danger leading-relaxed">
-          <strong>Warning:</strong><br />
-          Vault is encrypted inside your <code>.swa</code> file.<br />
-          No password recovery. Data loss is permanent.<br/>
-          If you are using Anchor first time, please enter new password else enter your old password.
+          <strong>Warning:</strong>
+          <br />
+          Vault is encrypted inside your <code>.swa</code> file.
+          <br />
+          No password recovery. Data loss is permanent.
+          <br />
+          If you are using Anchor first time, please enter new password else
+          enter your old password.
         </div>
 
         <input
@@ -127,9 +136,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
         />
 
         {error && (
-          <p className="text-anchor-danger text-xs mb-2 text-center">
-            {error}
-          </p>
+          <p className="text-anchor-danger text-xs mb-2 text-center">{error}</p>
         )}
 
         <button
@@ -189,11 +196,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
   const renderCalendar = (habit) => {
     const days = Object.keys(habit.history).sort();
     if (days.length === 0)
-      return (
-        <p className="text-xs text-anchor-muted mt-3">
-          No records yet.
-        </p>
-      );
+      return <p className="text-xs text-anchor-muted mt-3">No records yet.</p>;
 
     return (
       <div className="grid grid-cols-7 gap-2 mt-4">
@@ -202,9 +205,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
             key={d}
             title={d}
             className={`aspect-square rounded-md ${
-              habit.history[d]
-                ? "bg-anchor-success"
-                : "bg-anchor-danger"
+              habit.history[d] ? "bg-anchor-success" : "bg-anchor-danger"
             }`}
           />
         ))}
@@ -237,9 +238,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
 
       {/* HABIT LIST */}
       <div className="premium-card p-6 rounded-2xl">
-        <h3 className="text-sm mb-4 text-anchor-muted">
-          Tracked Habits
-        </h3>
+        <h3 className="text-sm mb-4 text-anchor-muted">Tracked Habits</h3>
 
         <div className="space-y-2">
           {data.habits.map((h) => (
@@ -311,9 +310,7 @@ window.Vault = function Vault({ encryptedBlob, onSave }) {
           </div>
 
           {activeHabit.history[todayStr] && (
-            <p className="text-xs text-anchor-muted">
-              Today already recorded.
-            </p>
+            <p className="text-xs text-anchor-muted">Today already recorded.</p>
           )}
 
           {renderCalendar(activeHabit)}

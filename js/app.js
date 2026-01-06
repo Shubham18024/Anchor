@@ -2,7 +2,12 @@ const { useState, useEffect } = React;
 
 function App() {
   // ---- DATE & TIME ----
-  const todayStr = new Date().toISOString().split("T")[0];
+  const getLocalDateStr = () => {
+    return new Date().toLocaleDateString("en-CA");
+    // returns YYYY-MM-DD in LOCAL time
+  };
+  const [todayStr, setTodayStr] = useState(getLocalDateStr());
+
   const [selectedDate, setSelectedDate] = useState(todayStr);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -41,6 +46,18 @@ function App() {
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const checkDateChange = () => {
+      const newDate = getLocalDateStr();
+      setTodayStr((prev) => (prev !== newDate ? newDate : prev));
+    };
+
+    // check every minute
+    const interval = setInterval(checkDateChange, 60000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // ---- ENSURE TODAY LOG ----
