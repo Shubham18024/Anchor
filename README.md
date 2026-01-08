@@ -10,7 +10,7 @@ No accounts. No cloud. No tracking. No manipulation.
 Everything lives on **your computer**.
 
 🌍 **Live App:**  
-https://shubham18024.github.io/Anchor/
+https://anchorapp.me/Anchor/
 
 ---
 
